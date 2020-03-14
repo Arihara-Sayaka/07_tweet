@@ -16,7 +16,7 @@ $stmt->execute();
 $post = $stmt->fetch(PDO::FETCH_ASSOC);
 
 
-if (!$post) {
+if (!$tweet) {
   header('Location: index.php');
   exit;
 }

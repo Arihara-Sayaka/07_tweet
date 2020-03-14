@@ -41,6 +41,7 @@ if(!$tweet) {
     <?php echo h($tweet['content']); ?><br>
     投稿日時: <?php echo h($tweet['created_at']); ?>
     <a href="edit.php?id=<?php echo h($tweet['id']); ?>">[編集]</a>
+    <a href="delete.php?id=<?php echo h($tweet['id']); ?>">[削除]</a>
     <hr>
   </li>
 </ul>
