@@ -35,7 +35,15 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
   }
 
   if (empty($errors)) {
+    $sql = "update tweets set content = :content, created_at = now() where id = :id";
 
+    $stmt = $dbh->prepare($sql);
+    $stmt->bindParam(":content", $content);
+    $stmt->bindParam(":id", $id, PDO::PARAM_INT);
+    $stmt->execute();
+
+    header('Location: index.php');
+    exit;
   }
 }
 
