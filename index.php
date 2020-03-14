@@ -18,6 +18,16 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
   if ($tweet == '') {
     $errors['tweet'] = 'ツイート内容を入力してください。';
   }
+
+      if (empty($errors)) {
+  $sql = "insert into tweets (content, created_at) values (:content, now())";
+  $stmt = $dbh->prepare($sql);
+  $stmt->bindParam(":content", $content);
+  $stmt->execute();
+
+  header('Location: index.php');
+  exit;
+  }
 }
 
 ?>
@@ -57,18 +67,20 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
 
   <h2>Tweet一覧</h2>
 
-  <?php if($tweets) : ?>
+  <?php if ($tweets) : ?>
   <ul>
     <?php foreach($tweets as $tweet) :?>
     <li>
       <?php echo $POST['id'] ?>
-      <a href="show.php?id=<?php echo h($tweet['id']); ?>"></a>
+      <a href="show.php?id=<?php echo h($tweet['id']); ?>">
+      <?php echo h($tweet['content']); ?></a><br>
+      投稿日時: <?php echo h($tweet['created_at']); ?>
     </li>
     <?php endforeach; ?>
   </ul>
   <?php else : ?>
   <p>
-    投稿されたtweetはありません
+    投稿された記事はありません
   </p>
   <?php endif; ?>
 
