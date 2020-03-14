@@ -73,7 +73,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
     <?php foreach($tweets as $tweet) :?>
     <li class="tweet-list">
       <?php echo $POST['id'] ?>
-      <a href="show.php?id=<?php echo h($tweets['id']); ?>">
+      <a href="show.php?id=<?php echo h($tweet['id']); ?>">
       <?php echo h($tweet['content']); ?></a><br>
       投稿日時: <?php echo h($tweet['created_at']); ?>
     </li>

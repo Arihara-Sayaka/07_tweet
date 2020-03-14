@@ -13,26 +13,30 @@ $stmt = $dbh->prepare($sql);
 $stmt->bindParam(":id", $id);
 $stmt->execute();
 
-$post = $stmt->fetch(PDO::FETCH_ASSOC);
+$tweet = $stmt->fetch(PDO::FETCH_ASSOC);
 
-// if (!$tweet) {
-//   header('Location: index.php');
-//   exit;
-// }
+//存在しないidを渡された時 index.php に飛ばす
+if (!$tweet) {
+  header('Location: index.php');
+  exit;
+}
 
 if($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-  $tweet = $_POST['tweet'];
+  $content = $_POST['content'];
 
   $errors = [];
   if ($content == '') {
     $errors['content'] = 'ツイート内容を入力してください。';
   }
 
-  if ($content === $post['content'] ){
-    $errors['unchanged'] = '変更されていません';
+  if ($content === $tweet['content'] ){
+    $errors['content'] = '変更されていません';
   }
 
+  if (empty($errors)) {
+
+  }
 }
 
 ?>
@@ -43,6 +47,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="style.css">
   <title>編集</title>
 </head>
 <body>
@@ -50,10 +55,20 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
 
   <a href="index.php">戻る</a>
 
+  <?php if ($errors) :?>
+    <ul class="error-list">
+      <?php foreach ($errors as $error) : ?>
+      <li>
+        <?php echo h($error); ?>
+      </li>
+      <?php endforeach; ?>
+    </ul>
+  <?php endif; ?>
+
   <form action="" method="post">
     <p>
       <label for="content">ツイート内容</label><br>
-      <textarea name="content" valu="<?php echo h($tweets['content']); ?>" id="" cols="30" rows="5">いまどうしてる？</textarea>
+      <textarea name="content" id="" cols="30" rows="5"><?php echo h($tweet['content']); ?></textarea>
     </p>
     <p>
       <input type="submit" value="編集する">
