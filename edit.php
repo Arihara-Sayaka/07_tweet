@@ -21,16 +21,18 @@ $post = $stmt->fetch(PDO::FETCH_ASSOC);
 // }
 
 if($_SERVER['REQUEST_METHOD'] === 'POST') {
+
   $tweet = $_POST['tweet'];
 
   $errors = [];
-  if ($tweet == '') {
-    $errors['tweet'] = 'ツイート内容を入力してください。';
+  if ($content == '') {
+    $errors['content'] = 'ツイート内容を入力してください。';
   }
 
-  if ($tweet === $post['tweet'] ){
+  if ($content === $post['content'] ){
     $errors['unchanged'] = '変更されていません';
-}
+  }
+
 }
 
 ?>
@@ -50,8 +52,8 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
 
   <form action="" method="post">
     <p>
-      <label for="tweet">ツイート内容</label><br>
-      <textarea name="tweet" id="" cols="30" rows="5">いまどうしてる？</textarea>
+      <label for="content">ツイート内容</label><br>
+      <textarea name="content" valu="<?php echo h($tweets['content']); ?>" id="" cols="30" rows="5">いまどうしてる？</textarea>
     </p>
     <p>
       <input type="submit" value="編集する">

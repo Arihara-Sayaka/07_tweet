@@ -5,3 +5,6 @@
   color: red;
 }
 
+.tweet-list {
+  list-style: none;
+}

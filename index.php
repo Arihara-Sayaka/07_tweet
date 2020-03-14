@@ -5,28 +5,29 @@ require_once('functions.php');
 
 $dbh = connectDb();
 
-//レコードの取得( 全件)
-$sql = "select * from tweets";
+//レコードの取得(全件) 降順
+$sql = "select * from tweets order by created_at desc";
 $stmt = $dbh->prepare($sql);
 $stmt->execute();
-$posts = $stmt->fetchall(PDO::FETCH_ASSOC);
+$tweets = $stmt->fetchall(PDO::FETCH_ASSOC);
 
 if($_SERVER['REQUEST_METHOD'] === 'POST') {
-  $tweet = $_POST['tweet'];
+  $content = $_POST['content'];
 
   $errors = [];
-  if ($tweet == '') {
-    $errors['tweet'] = 'ツイート内容を入力してください。';
+  if ($content == '') {
+    $errors['content'] = 'ツイート内容を入力してください。';
   }
 
-      if (empty($errors)) {
-  $sql = "insert into tweets (content, created_at) values (:content, now())";
-  $stmt = $dbh->prepare($sql);
-  $stmt->bindParam(":content", $content);
-  $stmt->execute();
-
-  header('Location: index.php');
-  exit;
+  
+  if (empty($errors)) {
+    $sql = "insert into tweets (content, created_at) values (:content, now())";
+    $stmt = $dbh->prepare($sql);
+    $stmt->bindParam(":content", $content);
+    $stmt->execute();
+    
+    header('Location: index.php');
+    exit;
   }
 }
 
@@ -57,8 +58,8 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
   <?php endif; ?>
   <form action="" method="post">
     <p>
-      <label for="tweet">ツイート内容</label><br>
-      <textarea name="tweet" id="" cols="30" rows="5">いまどうしてる？</textarea>
+      <label for="content">ツイート内容</label><br>
+      <textarea name="content" id="" cols="30" rows="5">いまどうしてる？</textarea>
     </p>
     <p>
       <input type="submit" value="投稿する">
@@ -70,9 +71,9 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
   <?php if ($tweets) : ?>
   <ul>
     <?php foreach($tweets as $tweet) :?>
-    <li>
+    <li class="tweet-list">
       <?php echo $POST['id'] ?>
-      <a href="show.php?id=<?php echo h($tweet['id']); ?>">
+      <a href="show.php?id=<?php echo h($tweets['id']); ?>">
       <?php echo h($tweet['content']); ?></a><br>
       投稿日時: <?php echo h($tweet['created_at']); ?>
     </li>
