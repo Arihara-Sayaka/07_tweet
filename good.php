@@ -3,20 +3,12 @@
 require_once('config.php');
 require_once('functions.php');
 
-$id = $_GET['id'];
-
 $dbh = connectDb();
 
-$sql = "select * from tweets where id = :id";
-
-$stmt = $dbh->prepare($sql);
-$stmt->bindParam(":id", $id);
-$stmt->execute();
-
-$post = $stmt->fetch(PDO::FETCH_ASSOC);
+$id = $_GET['id'];
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-  
+
   $good = $_GET['good'];
 
   if ($good == "1") {
@@ -25,25 +17,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $good_value = 0;
   }
 
-  if (!$tweet) {
-    header('Location: index.php');
-    exit;
+//sql文で該当のデータを更新する
+
+  $sql = "update tweets set good = :good where id = :id";
+
+  $stmt = $dbh->prepare($sql);
+  $stmt->bindParam(":good", $good_value);
+  $stmt->bindParam(":id", $id);
+  $stmt->execute();
+
+  header('Location: index.php');
+  exit;
+
   }
 
-//sql文で該当のデータを更新する
-    if (empty($errors)) {
-    $sql = "update tweets set good = :good where id = :id";
-  
-    $stmt = $dbh->prepare($sql_delete);
-  
-    $stmt->bindParam(":id", $id);
-    $stmt->execute();
-  
-  header('Location: index.php');
-    exit;
-  
-    }
-  }
 
 ?>
 
