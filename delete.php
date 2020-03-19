@@ -16,21 +16,16 @@ $stmt->execute();
 $post = $stmt->fetch(PDO::FETCH_ASSOC);
 
 
-if (!$tweet) {
-  header('Location: index.php');
-  exit;
-}
-
 //SQLのdelete文を削除
-  if (empty($errors)) {
-  $sql_delete = "delete from tweets where id = :id";
+if (empty($errors)) {
+  $sql = "delete from tweets where id = :id";
 
-  $stmt = $dbh->prepare($sql_delete);
+  $stmt = $dbh->prepare($sql);
 
   $stmt->bindParam(":id", $id);
   $stmt->execute();
 
-header('Location: index.php');
+  header('Location: index.php');
   exit;
 
   }
