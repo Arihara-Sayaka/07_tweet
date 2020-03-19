@@ -1,0 +1,20 @@
+@charset "utf-8";
+
+.error-list {
+  list-style: none;
+  color: red;
+}
+
+.tweet-list {
+  list-style: none;
+}
+
+.good-link {
+  text-decoration: none;
+  color: red;
+}
+
+.bad-link {
+  text-decoration: none;
+  color: red;
+}
