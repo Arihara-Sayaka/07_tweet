@@ -59,7 +59,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
   <form action="" method="post">
     <p>
       <label for="content">ツイート内容</label><br>
-      <textarea name="content" id="" cols="30" rows="5">いまどうしてる？</textarea>
+      <textarea name="content" id="" cols="30" rows="5" placeholder="いまどうしてる？"></textarea>
     </p>
     <p>
       <input type="submit" value="投稿する">
